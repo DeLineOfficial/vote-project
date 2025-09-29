@@ -1,0 +1,36 @@
+<template>
+    <div class="sidebar">
+        <div class="sidebar__content">
+            <NuxtLink to="/"><Icon name="icon:home"/></NuxtLink>
+            <NuxtLink to="/auth"><Icon name="icon:account-exit"/></NuxtLink>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.sidebar {
+    display: flex;
+    height: 100%;
+    width: 80px;
+    border-right: 1px solid var(--color-light-gray);
+}
+.sidebar__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 0;
+}
+.sidebar__content > * {
+    font-size: 21px;
+    display: flex;
+    align-items: center;
+    color: var(--color-black);
+    transition: .3s;
+}
+.sidebar__content > *:hover {
+    color: var(--color-black-hover);
+}
+</style>

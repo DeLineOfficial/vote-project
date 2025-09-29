@@ -9,17 +9,19 @@ const {} = defineProps<{
 </script>
 
 <template>
-    <div class="error">
-        <div class="error-content">
-            <h1>{{ error.statusCode }}</h1>
-            <p v-if="error.statusCode == 404">Страница не найдена, вернитесь на главную страницу</p>
-            <p v-else>{{ error.statusMessage }}</p>
-
-            <ActionButton class="error-btn" @click="navigateTo('/')">На главную</ActionButton>
+    <NuxtLayout>
+        <div class="error">
+            <div class="error-content">
+                <h1>{{ error.statusCode }}</h1>
+                <p v-if="error.statusCode == 404">Страница не найдена, вернитесь на главную страницу</p>
+                <p v-else>{{ error.statusMessage }}</p>
+    
+                <ActionButton class="error-btn" @click="navigateTo('/')">На главную</ActionButton>
+            </div>
+    
+    
         </div>
-
-
-    </div>
+    </NuxtLayout>
 </template>
 
 <style scoped>

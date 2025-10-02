@@ -27,20 +27,20 @@ const { color = 'primary' } = defineProps<{
     height: 41px;
     outline: none;
     border: none;
-}
-.primary {
-    background: var(--color-black);
-    color: var(--color-white);
-}
-.primary:hover {
-    background: var(--color-black-hover);
+    &.primary {
+        background: var(--color-black);
+        color: var(--color-white);
+        &:hover {
+            background: var(--color-black-hover);
+        }
+    }
+    &.ghost {
+        background: var(--color-black);
+        color: var(--color-white);
+        &:hover {
+            background: var(--color-black-hovxer);
+        }
+    }
 }
 
-.ghost {
-    background: var(--color-black);
-    color: var(--color-white);
-}
-.ghost:hover {
-    background: var(--color-black-hover);
-}
 </style>

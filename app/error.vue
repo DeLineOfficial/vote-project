@@ -11,7 +11,7 @@ const {} = defineProps<{
 <template>
     <NuxtLayout>
         <div class="error">
-            <div class="error-content">
+            <div class="error__content">
                 <h1>{{ error.statusCode }}</h1>
                 <p v-if="error.statusCode == 404">Страница не найдена, вернитесь на главную страницу</p>
                 <p v-else>{{ error.statusMessage }}</p>
@@ -32,22 +32,22 @@ const {} = defineProps<{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-}
-.error-content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: var(--color-gray);
-}
-h1 {
-    font-size: 120px;
-    font-weight: 500;
-}
-p {
-    font-size: 16px;
-    font-weight: 300;
-}
-.error-btn {
-    margin-top: 48px;
+    &__content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        color: var(--color-gray);
+        & h1 {
+            font-size: 120px;
+            font-weight: 500;
+        }
+        & p {
+            font-size: 16px;
+            font-weight: 300;
+        }
+        & .error-btn {
+            margin-top: 48px;
+        }
+    }
 }
 </style>

@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       }
     ]
   },
+  postcss: {
+    plugins: {
+      'postcss-nested': {}
+    },
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',

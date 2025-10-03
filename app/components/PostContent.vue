@@ -142,7 +142,6 @@ function gradePost(grade: string){
             & .iconify {
                 color: var(--color-gray-icon);
                 font-size: 18px;
-                cursor: pointer;
             }
         }
     }

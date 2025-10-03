@@ -12,6 +12,7 @@
     display: flex;
     height: 100%;
     width: 80px;
+    min-width: 80px;
     border-right: 1px solid var(--color-light-gray);
     &__content {
         display: flex;

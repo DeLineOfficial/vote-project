@@ -11,12 +11,16 @@
 .main-wrapper {
     display: flex;
     width: 100%;
+    overflow: hidden;
     height: 100vh;
     align-items: flex-start;
 }
 .main-content {
     display: flex;
-    padding: 40px 24px;
-    flex: 1 1 auto;
+    padding: 40px 0;
+    margin-left: 132px;
+    height: 100%;
+    max-width: 100%;
+    width: 100%;
 }
 </style>

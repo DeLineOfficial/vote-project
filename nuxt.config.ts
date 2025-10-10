@@ -16,6 +16,11 @@ export default defineNuxtConfig({
       mode: 'out-in'
     }
   },
+  runtimeConfig: {
+    public: {
+      APIURL: ''
+    },
+  },
   imports: {
     dirs: [
       'shared/types/**/*.ts'

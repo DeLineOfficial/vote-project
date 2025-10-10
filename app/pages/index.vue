@@ -1,25 +1,32 @@
 <script setup lang="ts">
-const content = ref<PostContent>({
-    author: 'UserProfile',
-    logo: 'https://images.steamusercontent.com/ugc/2392062395208059840/9265AEBEF437F14A23B08037DEF8EB2787EBDB2A/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true',
-    content: "Попробовать добавить в приложение функцию голосования, которая позволит определить, какая фича более полезна, а какая нет. После добавления поста появляется...",
-    title: 'Добавить функцию голосования',
-    date: new Date(),
-    likes: 10,
-    dislikes: 1,
+const runtime = useRuntimeConfig();
+const APIURL = runtime.public.APIURL;
+const postsResponse = await useFetch<GetPosts>(APIURL + '/posts')
+
+
+const posts = computed(() => {
+    return postsResponse.data.value?.posts || [];
 })
 
+
+async function likePost(id: Number) {
+    await $fetch(APIURL + '/posts/' + id + '/like', {
+        method: 'POST',
+    }); 
+    await postsResponse.refresh();
+}
+async function dislikePost(id: Number) {
+    await $fetch(APIURL + '/posts/' + id + '/dislike', {
+        method: 'POST',
+    }); 
+    await postsResponse.refresh();
+}
 </script>
 
 <template>
     <div class="index__page">
         <div class="posts">
-            <PostContent :content="content"/>
-            <PostContent :content="content"/>
-            <PostContent :content="content"/>
-            <PostContent :content="content"/>
-            <PostContent :content="content"/>
-            <PostContent :content="content"/>
+            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(id)" @dislike="(id) => dislikePost(id)"/>
         </div>
     </div>
 

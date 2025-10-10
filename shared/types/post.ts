@@ -1,9 +1,15 @@
 export interface PostContent {
-    logo: string,
-    author: string,
-    title: string,
-    content: string,
+    id: number,
+	title: string,
+	content: string,
+	author_id: number,
     likes: number,
     dislikes: number,
-    date: Date,
+	rating: number,
+    published_at: Date,
+	updated_at: Date
+}
+
+export interface GetPosts {
+    posts: PostContent[],
 }

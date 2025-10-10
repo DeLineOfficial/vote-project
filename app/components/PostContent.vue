@@ -3,15 +3,18 @@
 const props = defineProps<{
     content: PostContent
 }>();
+const emit = defineEmits<{
+    'like': [value: Number],
+    'dislike': [value: Number],
+}>()
 const like = ref<Boolean>(false);
 const dislike = ref<Boolean>(false);
 
 const datePosted = computed(() => {
-    const date = props.content.date
+    const date = new Date(props.content.updated_at);
     const now = new Date();
     const diffTime = Math.abs(now - date);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
     if (diffDays === 0) {
         return 'сегодня';
     } else if (diffDays === 1) {
@@ -29,20 +32,12 @@ const datePosted = computed(() => {
 function gradePost(grade: string){
     switch(grade) {
         case 'like':
-            dislike.value = false;
-            if(like.value == true) {
-                like.value = false
-            } else {
-                like.value = true;
-            }
+            emit('like', props.content.id)
+            like.value = true;
             break
         case 'dislike':
-            like.value = false;
-            if(dislike.value == true) {
-                dislike.value = false
-            } else {
-                dislike.value = true;
-            }
+            emit('dislike', props.content.id)
+            dislike.value = true;
             break
     }
 }
@@ -51,18 +46,18 @@ function gradePost(grade: string){
     <div class="post">
         <div class="post__header">
             <div class="author">
-                <img class="logo" :src="content.logo" alt="test">
-                <span>{{ content.author }}</span>
+                <img class="logo" src="https://images.steamusercontent.com/ugc/2392062395208059840/9265AEBEF437F14A23B08037DEF8EB2787EBDB2A/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="test">
+                <span>User - {{ content.author_id }}</span>
             </div>
             <span class="date-posted">{{ datePosted }}</span>
         </div>
         <div class="post__content">
-            <h2>{{ content.title }}</h2>
+            <NuxtLink :to="'/post/' + content.id"><h2>{{ content.title }}</h2></NuxtLink>
             <p>{{ content.content }}</p>
         </div>
         <div class="post__actions">
-            <div class="action">{{ content.likes }}<Icon :name="like ? 'icon:like-active' : 'icon:like'" class="like" @click="gradePost('like')"/></div>
-            <div class="action">{{ content.dislikes }}<Icon :name="dislike ? 'icon:dislike-active' : 'icon:dislike'" class="dislike" @click="gradePost('dislike')"/></div>
+            <div class="action">{{ content.likes }}<Icon :name="like ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
+            <div class="action">{{ content.dislikes }}<Icon :name="dislike ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
         </div>
     </div>
 </template>
@@ -123,7 +118,12 @@ function gradePost(grade: string){
             line-height: 150%;
             margin-top: 8px;
             color: var(--color-gray);
-            font-weight: 300;   
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* number of lines to show */
+            line-clamp: 3;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
         }
     }
     &__actions {
@@ -139,10 +139,23 @@ function gradePost(grade: string){
             gap: 6px;
             color: var(--color-gray);
 
+            
             & .iconify {
                 cursor: pointer;
                 color: var(--color-gray-icon);
                 font-size: 18px;
+                &.completed {
+                    pointer-events: none;
+                }
+            }
+        }
+    }
+
+    &.post__selected {
+        & .post__content {
+            & p {
+                display: flex;
+                overflow: auto;
             }
         }
     }

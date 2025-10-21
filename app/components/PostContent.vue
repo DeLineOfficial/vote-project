@@ -47,7 +47,7 @@ function gradePost(grade: string){
         <div class="post__header">
             <div class="author">
                 <img class="logo" src="https://images.steamusercontent.com/ugc/2392062395208059840/9265AEBEF437F14A23B08037DEF8EB2787EBDB2A/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="test">
-                <span>User - {{ content.author_id }}</span>
+                <span>Artem, Frontend developer</span>
             </div>
             <span class="date-posted">{{ datePosted }}</span>
         </div>

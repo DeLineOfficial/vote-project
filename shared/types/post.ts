@@ -12,4 +12,5 @@ export interface PostContent {
 
 export interface GetPosts {
     posts: PostContent[],
+    total_pages: number
 }

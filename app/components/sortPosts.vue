@@ -37,7 +37,9 @@ function changeFilter(value: string) {
     display: flex;
     align-items: center;
     gap: 42px;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
+    max-width: 692px;
+    border-bottom: 1px solid var(--color-light-gray);
 
     & .sortable__element {
         font-size: 16px;

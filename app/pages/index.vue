@@ -6,7 +6,6 @@ const router = useRouter();
 
 const query = computed(() => ({
     page: route.query.page ?? 1,
-    page_size: route.query.page_size ?? 10,
     sort: route.query.sort || 'date',
 }))
 const postsResponse = await useFetch<GetPosts>(APIURL + '/posts', {
@@ -18,6 +17,17 @@ const postsResponse = await useFetch<GetPosts>(APIURL + '/posts', {
 const posts = computed(() => {
     return postsResponse.data.value?.posts || [];
 })
+const totalPage = computed(() => {
+    return postsResponse.data.value?.total_pages || undefined
+})
+const currentPage = computed(() => {
+    if(Number(route.query.page) > Number(totalPage.value) || route.query.page == undefined) {
+        router.replace({ query: { ...route.query, page: 1 } })
+        return 1
+    } else {
+        return Number(route.query.page)
+    }
+});
 
 const filterOption = ref([
     {
@@ -48,6 +58,10 @@ async function dislikePost(id: Number) {
 function updateFilter(option: string) {
     router.replace({ query: { ...route.query, sort: option } })
 }
+
+function paginatePage(page: number) {
+    router.replace({ query: { ...route.query, page: page } })
+}
 </script>
 
 <template>
@@ -56,7 +70,7 @@ function updateFilter(option: string) {
         <div class="posts">
             <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(id)" @dislike="(id) => dislikePost(id)"/>
         </div>
-        
+        <PaginationList :current-page="currentPage" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
     </div>
 
 </template>

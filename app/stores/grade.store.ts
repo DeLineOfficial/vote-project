@@ -13,16 +13,24 @@ export const useGradePostStore = defineStore('grade', () => {
     const gradesPosts = ref<gradePost[]>([]);
     
     async function likePost(id: Number) {
-        gradesPosts.value.push({
-            id: Number(id),
-            action: 'liked'
-        })
+        if(gradesPosts.value.find(g => g.id == id)) {
+            return 
+        } else {
+            gradesPosts.value.push({
+                id: Number(id),
+                action: 'liked'
+            })
+        }
     }
     async function dislikePost(id: Number) {
-        gradesPosts.value.push({
-            id: Number(id),
-            action: 'disliked'
-        })
+        if(gradesPosts.value.find(g => g.id == id)) {
+            return 
+        } else {
+            gradesPosts.value.push({
+                id: Number(id),
+                action: 'disliked'
+            })
+        }
     }
 
     function isGrade(id: number) {

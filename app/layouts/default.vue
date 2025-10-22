@@ -1,10 +1,10 @@
 <template>
     <div class="main-wrapper">
-    <LayoutSidebar/>
-    <div class="main-content">
-        <slot/>
+        <LayoutSidebar />
+        <div class="main-content">
+            <slot />
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -15,6 +15,7 @@
     height: 100vh;
     align-items: flex-start;
 }
+
 .main-content {
     display: flex;
     padding: 40px 0;

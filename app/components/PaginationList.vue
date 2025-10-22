@@ -102,6 +102,10 @@ const goToPage = (page: any) => {
             &.active {
                 color: var(--color-gray);
             }
+            &.ellipsis {
+                pointer-events: none;
+                user-select: none;
+            }
         }
     }
 </style>

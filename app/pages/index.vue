@@ -44,14 +44,14 @@ const filterOption = ref([
 const activeFilter = ref(route.query.sort?.toString() || 'date')
 
 
-async function likePost(id: Number) {
+async function likePost(id: number) {
     await $fetch(APIURL + '/posts/' + id + '/like', {
         method: 'POST',
     });
     await postsResponse.refresh();
     gradeStore.likePost(id);
 }
-async function dislikePost(id: Number) {
+async function dislikePost(id: number) {
     await $fetch(APIURL + '/posts/' + id + '/dislike', {
         method: 'POST',
     });
@@ -72,7 +72,7 @@ function paginatePage(page: number) {
     <div class="index__page">
         <SortPosts :filter="filterOption" :active="activeFilter" @update="(val) => updateFilter(val)"/>
         <div class="posts">
-            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(id)" @dislike="(id) => dislikePost(id)"/>
+            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(Number(id))" @dislike="(id) => dislikePost(Number(id))"/>
         </div>
         <PaginationList :current-page="currentPage" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
     </div>

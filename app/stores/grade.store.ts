@@ -13,7 +13,7 @@ export const useGradePostStore = defineStore('grade', () => {
     const gradesPosts = ref<gradePost[]>([]);
     
     async function likePost(id: Number) {
-        if(gradesPosts.value.find(g => g.id == id)) {
+        if(isGrade(id)) {
             return 
         } else {
             gradesPosts.value.push({
@@ -23,7 +23,7 @@ export const useGradePostStore = defineStore('grade', () => {
         }
     }
     async function dislikePost(id: Number) {
-        if(gradesPosts.value.find(g => g.id == id)) {
+        if(isGrade(id)) {
             return 
         } else {
             gradesPosts.value.push({
@@ -33,7 +33,7 @@ export const useGradePostStore = defineStore('grade', () => {
         }
     }
 
-    function isGrade(id: number) {
+    function isGrade(id: Number) {
         if(gradesPosts.value.find(g => g.id == id)) {
             const currentPost = gradesPosts.value.filter(el => el.id == id);
             return { id: currentPost[0]?.id, action: currentPost[0]?.action, graded: true}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const gradeStore = useGradePostStore();
 const props = defineProps<{
     content: PostContent
 }>();
@@ -26,24 +26,23 @@ const datePosted = computed(() => {
     } else {
         return `Больше недели назад`;
     }
-    
+})
+
+const graded = computed<any>(() => {
+    return gradeStore.isGrade(props.content.id)
 })
 
 function gradePost(grade: string){
-    switch(grade) {
-        case 'like':
-            emit('like', props.content.id)
-            like.value = true;
-            break
-        case 'dislike':
-            emit('dislike', props.content.id)
-            dislike.value = true;
-            break
+    if(grade == 'like') {
+        emit('like', props.content.id)
+    } else {
+        emit('dislike', props.content.id)
     }
 }
+
 </script>
 <template>
-    <div class="post">
+    <div class="post" @click="console.log(graded)">
         <div class="post__header">
             <div class="author">
                 <img class="logo" src="https://images.steamusercontent.com/ugc/2392062395208059840/9265AEBEF437F14A23B08037DEF8EB2787EBDB2A/?imw=512&amp;imh=512&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true" alt="test">
@@ -55,9 +54,9 @@ function gradePost(grade: string){
             <NuxtLink :to="'/post/' + content.id"><h2>{{ content.title }}</h2></NuxtLink>
             <p>{{ content.content }}</p>
         </div>
-        <div class="post__actions">
-            <div class="action">{{ content.likes }}<Icon :name="like ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
-            <div class="action">{{ content.dislikes }}<Icon :name="dislike ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
+        <div class="post__actions" :class="{graded: gradeStore.isGrade(content.id)}">
+            <div class="action">{{ content.likes }}<Icon :name="graded?.action == 'liked' ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
+            <div class="action">{{ content.dislikes }}<Icon :name="graded?.action == 'disliked' ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
         </div>
     </div>
 </template>
@@ -131,7 +130,9 @@ function gradePost(grade: string){
         margin-top: 10px;
         align-items: center;
         gap: 14px;
-
+        &.graded {
+            pointer-events: none;
+        }
         & > .action {
             display: flex;
             align-items: center;

@@ -3,6 +3,7 @@ const runtime = useRuntimeConfig();
 const APIURL = runtime.public.APIURL;
 const route = useRoute();
 const router = useRouter();
+const gradeStore = useGradePostStore();
 
 const query = computed(() => ({
     page: route.query.page ?? 1,
@@ -42,17 +43,20 @@ const filterOption = ref([
 
 const activeFilter = ref(route.query.sort?.toString() || 'date')
 
+
 async function likePost(id: Number) {
     await $fetch(APIURL + '/posts/' + id + '/like', {
         method: 'POST',
-    }); 
+    });
     await postsResponse.refresh();
+    gradeStore.likePost(id);
 }
 async function dislikePost(id: Number) {
     await $fetch(APIURL + '/posts/' + id + '/dislike', {
         method: 'POST',
-    }); 
+    });
     await postsResponse.refresh();
+    gradeStore.dislikePost(id);
 }
 
 function updateFilter(option: string) {

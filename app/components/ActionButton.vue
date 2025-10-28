@@ -2,13 +2,17 @@
 const { color = 'primary' } = defineProps<{
     color?: 'primary' | 'ghost'
 }>()
+
+const emit = defineEmits<{
+  (e: 'click', value: any): void
+}>();
 </script>
 
 <template>
 
-    <button class="action-button" :class="color">
+    <div class="action-button" tabindex="0" :class="color" @keyup.enter="(e) => emit('click', e)" @click="(e) => emit('click', e)">
         <slot />
-    </button>
+    </div>
 
 </template>
 
@@ -21,7 +25,7 @@ const { color = 'primary' } = defineProps<{
     justify-content: center;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     transition: .3s;
     padding: 0 16px;
     height: 41px;

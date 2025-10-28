@@ -1,9 +1,8 @@
 <script setup lang="ts">
-const runtime = useRuntimeConfig();
-const APIURL = runtime.public.APIURL;
 const route = useRoute();
 const router = useRouter();
 const gradeStore = useGradePostStore();
+const APIURL = useAPI();
 
 const query = computed(() => ({
     page: route.query.page ?? 1,
@@ -82,6 +81,7 @@ function paginatePage(page: number) {
 .index__page {
     display: flex;
     width: 100%;
+    margin-left: 132px;
     flex-direction: column;
 
     & .posts {

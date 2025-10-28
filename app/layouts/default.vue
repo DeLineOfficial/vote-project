@@ -19,7 +19,6 @@
 .main-content {
     display: flex;
     padding: 40px 0;
-    margin-left: 132px;
     height: 100%;
     max-width: 100%;
     width: 100%;

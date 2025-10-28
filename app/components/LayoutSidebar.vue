@@ -1,8 +1,14 @@
+<script setup lang="ts">
+
+const authStore = useAuthStore();
+
+</script>
+
 <template>
     <div class="sidebar">
         <div class="sidebar__content">
             <NuxtLink to="/"><Icon name="icon:home"/></NuxtLink>
-            <NuxtLink to="/auth"><Icon name="icon:account-exit"/></NuxtLink>
+            <NuxtLink to="/auth" @click="() => {authStore.clearToken()}"><Icon name="icon:account-exit"/></NuxtLink>
         </div>
     </div>
 </template>

@@ -14,7 +14,7 @@
                     password: password.value
                 }
             })
-            authStore.setToken((await data).token);
+            authStore.setToken((await data).token, (await data).user);
             navigateTo('/')
         } catch ( error ) {
             console.error(error)

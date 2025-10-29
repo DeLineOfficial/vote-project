@@ -18,6 +18,9 @@ export default defineNuxtConfig({
     head: {
       title: 'VoteApp',
       titleTemplate: '%s | VoteApp',
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png'}
+      ]
     }
   },
   runtimeConfig: {
@@ -45,6 +48,9 @@ export default defineNuxtConfig({
       changefreq: 'weekly'
     }
   },
+  robots: {
+    disallow: '/post/create'
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -54,5 +60,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/sitemap',
+    '@nuxtjs/robots'
   ]
 })

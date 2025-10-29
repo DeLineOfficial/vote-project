@@ -35,6 +35,16 @@ export default defineNuxtConfig({
       'postcss-nested': {}
     },
   },
+  sitemap: {
+    sources: [
+      '/api/sitemap/urls'
+    ],
+    defaults: {
+      lastmod: new Date().toISOString(),
+      priority: 0.5,
+      changefreq: 'weekly'
+    }
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -43,5 +53,6 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/sitemap',
   ]
 })

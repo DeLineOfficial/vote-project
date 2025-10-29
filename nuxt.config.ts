@@ -14,6 +14,10 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'page',
       mode: 'out-in'
+    },
+    head: {
+      title: 'VoteApp',
+      titleTemplate: '%s | VoteApp',
     }
   },
   runtimeConfig: {

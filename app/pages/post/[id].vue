@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 const route = useRoute();
-const postId = route.path.split('/').splice(2)[0];
 const APIURL = useAPI()
-const { data, refresh } = await useFetch<PostContent>(APIURL + '/posts/' + postId )
+const { data, refresh } = await useFetch<PostContent>(APIURL + '/posts/' + route.params.id )
 
 const currentPost = computed(() => {
     return data.value
@@ -20,6 +19,13 @@ async function dislikePost(id: Number) {
     }); 
     await refresh();
 }
+
+
+useSeoMeta({
+    title: `Просмотр поста - ${data.value?.title}`,
+    description: data.value?.content,
+    ogDescription: data.value?.content
+})
 
 </script>
 

@@ -4,6 +4,12 @@ const router = useRouter();
 const gradeStore = useGradePostStore();
 const APIURL = useAPI();
 
+useSeoMeta({
+    title: 'Главная',
+    description: 'Главная страница с постами',
+    ogDescription: 'Главная страница с постами'
+})
+
 const query = computed(() => ({
     page: route.query.page ?? 1,
     sort: route.query.sort || 'date',
@@ -12,7 +18,6 @@ const postsResponse = await useFetch<GetPosts>(APIURL + '/posts', {
     query,
     key: 'sortable-posts'
 })
-
 
 const posts = computed(() => {
     return postsResponse.data.value?.posts || [];

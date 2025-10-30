@@ -14,6 +14,13 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'page',
       mode: 'out-in'
+    },
+    head: {
+      title: 'VoteApp',
+      titleTemplate: '%s | VoteApp',
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png'}
+      ]
     }
   },
   runtimeConfig: {
@@ -31,6 +38,19 @@ export default defineNuxtConfig({
       'postcss-nested': {}
     },
   },
+  sitemap: {
+    sources: [
+      '/api/sitemap/urls'
+    ],
+    defaults: {
+      lastmod: new Date().toISOString(),
+      priority: 0.5,
+      changefreq: 'weekly'
+    }
+  },
+  robots: {
+    disallow: '/post/create'
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -39,5 +59,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots'
   ]
 })

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 
 const model = defineModel()
-const { type = 'text' } = defineProps<{
+const { type = 'text', height = '41px' } = defineProps<{
     type?: string,
     placeholder?: string,
+    height?: string,
 }>()
 
 </script>
@@ -21,7 +22,7 @@ const { type = 'text' } = defineProps<{
 .input-field__container {
     display: flex;
     width: 100%;
-    height: 41px;
+    height: v-bind(height);
     position: relative;
     align-items: center;
     & .input-field {

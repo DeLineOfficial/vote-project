@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+const config = useRuntimeConfig();
 const gradeStore = useGradePostStore();
 const props = defineProps<{
     content: PostContent
@@ -40,6 +42,8 @@ function gradePost(grade: string){
     }
 }
 
+
+
 </script>
 <template>
     <div class="post">
@@ -54,9 +58,18 @@ function gradePost(grade: string){
             <NuxtLink :to="'/post/' + content.id"><h2>{{ content.title }}</h2></NuxtLink>
             <p>{{ content.content }}</p>
         </div>
-        <div class="post__actions" :class="{graded: gradeStore.isGrade(content.id)}">
-            <div class="action">{{ content.likes }}<Icon :name="graded?.action == 'liked' ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
-            <div class="action">{{ content.dislikes }}<Icon :name="graded?.action == 'disliked' ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
+        <div class="post-actions">
+            <div class="post__actions" :class="{graded: gradeStore.isGrade(content.id)}">
+                <div class="action">{{ content.likes }}<Icon :name="graded?.action == 'liked' ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
+                <div class="action">{{ content.dislikes }}<Icon :name="graded?.action == 'disliked' ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
+            
+            </div>
+            <div class="actions__state">
+                <NuxtLink :to="'/post/edit/' + content.id" class="action__edit">
+                    <Icon name="icon:edit"/>
+                    <span>Изменить</span>
+                </NuxtLink>
+            </div>
         </div>
     </div>
 </template>
@@ -125,28 +138,51 @@ function gradePost(grade: string){
             -webkit-box-orient: vertical;
         }
     }
-    &__actions {
+    
+    & .post-actions {
         display: flex;
         margin-top: 10px;
         align-items: center;
-        gap: 14px;
-        &.graded {
-            pointer-events: none;
-        }
-        & > .action {
+        width: 100%;
+        & .post__actions {
             display: flex;
-            align-items: center;
-            font-size: 14px;
-            gap: 6px;
-            color: var(--color-gray);
-
+            gap: 14px;
+            &.graded {
+                pointer-events: none;
+            }
+            & > .action {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                gap: 6px;
+                color: var(--color-gray);
+    
+                
+                & .iconify {
+                    cursor: pointer;
+                    color: var(--color-gray-icon);
+                    font-size: 18px;
+                    &.completed {
+                        pointer-events: none;
+                    }
+                }
+            }
             
-            & .iconify {
-                cursor: pointer;
-                color: var(--color-gray-icon);
-                font-size: 18px;
-                &.completed {
-                    pointer-events: none;
+        }
+        & .actions__state {
+            display: flex;
+            gap: 24px;
+            margin-left: auto;
+
+            & > .action__edit {
+                display: flex;
+                align-items: flex-end;
+                color: var(--color-gray);
+                gap: 4px;
+                font-size: 16px;
+
+                & > .iconify {
+                    font-size: 20px;
                 }
             }
         }
@@ -158,6 +194,9 @@ function gradePost(grade: string){
                 display: flex;
                 overflow: auto;
             }
+        }
+        & .actions__state {
+
         }
     }
 }

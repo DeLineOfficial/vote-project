@@ -20,6 +20,8 @@ bun install
 
 ## Development Server
 
+Open folder 'api-preview' and started file api
+
 Start the development server on `http://localhost:3000`:
 
 ```bash

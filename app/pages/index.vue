@@ -63,6 +63,22 @@ async function dislikePost(id: number) {
     await postsResponse.refresh();
     gradeStore.dislikePost(id);
 }
+async function deletePost(id: Number) {
+    try {
+
+        const data = await $fetch(APIURL + '/posts/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authStore.token}`
+            }
+        })
+        await postsResponse.refresh();
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
 
 function updateFilter(option: string) {
     router.replace({ query: { ...route.query, sort: option } })
@@ -83,9 +99,9 @@ function paginatePage(page: number) {
         </NuxtLink>
         <SortPosts :filter="filterOption" :active="activeFilter" @update="(val) => updateFilter(val)"/>
         <div class="posts">
-            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(Number(id))" @dislike="(id) => dislikePost(Number(id))"/>
+            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(Number(id))" @dislike="(id) => dislikePost(Number(id))" @delete="(e) => deletePost(e)"/>
         </div>
-        <PaginationList :current-page="currentPage" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
+        <PaginationList :current-page="currentPage" v-if="totalPage > 1" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
     </div>
 
 </template>

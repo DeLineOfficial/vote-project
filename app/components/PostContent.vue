@@ -1,6 +1,5 @@
 <script setup lang="ts">
-
-const config = useRuntimeConfig();
+const authStore = useAuthStore();
 const gradeStore = useGradePostStore();
 const props = defineProps<{
     content: PostContent
@@ -8,6 +7,7 @@ const props = defineProps<{
 const emit = defineEmits<{
     'like': [value: Number],
     'dislike': [value: Number],
+    'delete': [value: Number],
 }>()
 const like = ref<Boolean>(false);
 const dislike = ref<Boolean>(false);
@@ -62,9 +62,9 @@ function gradePost(grade: string){
             <div class="post__actions" :class="{graded: gradeStore.isGrade(content.id)}">
                 <div class="action">{{ content.likes }}<Icon :name="graded?.action == 'liked' ? 'icon:like-active' : 'icon:like'" class="like" :class="{'completed': like == true}" @click="gradePost('like')"/></div>
                 <div class="action">{{ content.dislikes }}<Icon :name="graded?.action == 'disliked' ? 'icon:dislike-active' : 'icon:dislike'"  class="dislike" :class="{'completed': dislike == true}" @click="gradePost('dislike')"/></div>
-            
             </div>
-            <div class="actions__state">
+            <div class="actions__state" v-if="authStore.token">
+                <Icon name="icon:delete" @click="emit('delete', content.id)" class="action__delete"/>
                 <NuxtLink :to="'/post/edit/' + content.id" class="action__edit">
                     <Icon name="icon:edit"/>
                     <span>Изменить</span>
@@ -173,7 +173,10 @@ function gradePost(grade: string){
             display: flex;
             gap: 24px;
             margin-left: auto;
-
+            & > .action__delete {
+                font-size: 20px;
+                cursor: pointer;
+            }
             & > .action__edit {
                 display: flex;
                 align-items: flex-end;

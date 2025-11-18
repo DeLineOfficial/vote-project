@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      APIURL: ''
+      APIURL: '',
     },
   },
   imports: {

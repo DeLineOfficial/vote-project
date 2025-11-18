@@ -2,6 +2,7 @@
 const route = useRoute();
 const router = useRouter();
 const gradeStore = useGradePostStore();
+const authStore = useAuthStore();
 const APIURL = useAPI();
 
 useSeoMeta({
@@ -62,6 +63,22 @@ async function dislikePost(id: number) {
     await postsResponse.refresh();
     gradeStore.dislikePost(id);
 }
+async function deletePost(id: Number) {
+    try {
+
+        const data = await $fetch(APIURL + '/posts/' + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authStore.token}`
+            }
+        })
+        await postsResponse.refresh();
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
 
 function updateFilter(option: string) {
     router.replace({ query: { ...route.query, sort: option } })
@@ -74,20 +91,22 @@ function paginatePage(page: number) {
 
 <template>
     <div class="index__page">
+        <NuxtLink to="post/create" v-if="authStore.token" class="create-post">
+            <div class="create-post__plus">
+                <Icon name="icon:close"/>
+            </div>
+            <span>Добавить новой пост для голосования</span>
+        </NuxtLink>
         <SortPosts :filter="filterOption" :active="activeFilter" @update="(val) => updateFilter(val)"/>
         <div class="posts">
-            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(Number(id))" @dislike="(id) => dislikePost(Number(id))"/>
+            <PostContent v-for="post in posts" :content="post" :key="post.id" @like="(id) => likePost(Number(id))" @dislike="(id) => dislikePost(Number(id))" @delete="(e) => deletePost(e)"/>
         </div>
-        <PaginationList :current-page="currentPage" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
+        <PaginationList :current-page="currentPage" v-if="totalPage > 1" :total-pages="totalPage" @page-changed="(e) => paginatePage(e)"/>
     </div>
 
 </template>
 <style scoped>
 .index__page {
-    display: flex;
-    width: 100%;
-    margin-left: 132px;
-    flex-direction: column;
 
     & .posts {
         display: flex;
@@ -95,6 +114,41 @@ function paginatePage(page: number) {
         width: 100%;
         height: 100%;
         overflow: auto;
+    }
+
+
+    & .create-post {
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        margin-bottom: 28px;
+        gap: 8px;
+
+        & .create-post__plus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            transition: .2s;
+            background: var(--color-gray-icon-light);
+            
+            & .iconify {
+                color: var(--color-black);
+                transform: rotate(45deg);
+            }
+        }
+        
+        &:hover {
+            & .create-post__plus {
+                background: var(--color-light-gray);
+            }
+        }
+        & span {
+            color: var(--color-black);
+            font-weight: 300;
+        }
     }
 }
 
